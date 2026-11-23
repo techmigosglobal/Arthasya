@@ -1,0 +1,16 @@
+dist/
+.test-artifacts/
+.DS_Store
+.netlify/
+node_modules/
+.env
+.env.*
+!.env.example
+**/__MACOSX/
+**/._*
+*.pem
+*.key
+.vercel/
+
+.cache/
+*.blend1
