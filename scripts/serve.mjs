@@ -6,7 +6,7 @@ const built=process.argv.includes('--dist'),root=resolve(built?'dist':'.'),port=
 const headerFile=await readFile(resolve(root,'_headers'),'utf8');
 const headers=Object.fromEntries(headerFile.split('\n/assets/')[0].split('\n').filter(l=>l.startsWith('  ')).map(l=>{const i=l.indexOf(':');return [l.slice(0,i).trim(),l.slice(i+1).trim()];}));
 if(!built&&settings.indexable) delete headers['X-Robots-Tag'];
-const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf','.txt':'text/plain','.xml':'application/xml','.glb':'model/gltf-binary'};
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml','.ttf':'font/ttf','.txt':'text/plain','.xml':'application/xml','.glb':'model/gltf-binary'};
 http.createServer(async(req,res)=>{
   const send=(status,data,type)=>{res.writeHead(status,{...headers,'Content-Type':type,'Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:data);};
   try{
@@ -17,6 +17,7 @@ http.createServer(async(req,res)=>{
     }
     if(allPaths.includes(path)) return send(200,built?await readFile(resolve(root,'.'+path,'index.html')):await documentFor(path),mime['.html']);
     if(path==='/sitemap.xml'||path==='/robots.txt') return send(200,built?await readFile(resolve(root,'.'+path)):path.endsWith('.xml')?sitemap():robots(),mime[extname(path)]);
+    if(path==='/arth.pravah/styles.css') return send(200,await readFile(resolve(root,'arth.pravah','styles.css')),mime['.css']);
     if(path.startsWith('/src/')||path.startsWith('/assets/')){
       const file=resolve(root,'.'+path);
       const surfaceRoot=resolve(root,path.startsWith('/assets/')?'assets':'src');

@@ -8,23 +8,10 @@ const pendingDetail = 'Detail page link pending owner confirmation.';
 export const businesses = [
   {
     id:'export', name:'Export', heroName:'ARTHASYA EXPORT', label:'Red chillies & turmeric',
-    title:'Trade that travels.', description:'Red chillies and turmeric, prepared for the next destination.',
+    title:'Trade that travels.', description:'Direct sourcing and global export of whole turmeric, turmeric powder, and dry red chillies.',
     action:'Explore exports', photo:'export', alt:'Turmeric and export ingredients prepared in a warm studio setting',
     accent:'#e8752b', href:'/arth.export',
-    detail:'Arthasya export enquiries for red chillies and turmeric will be available when verified business details are confirmed.',
-    page:{
-      kicker:'ARTHASYA EXPORT', title:'Red chillies and turmeric with a sense of place.',
-      description:'Arthasya Export brings red chillies and turmeric into one clear, purposeful business.', photo:'export',
-      offerings:[
-        {title:'Red chillies',copy:'A focused export vertical for red chillies.',detail:pendingDetail},
-        {title:'Turmeric',copy:'Turmeric as a distinct part of the Arthasya export story.',detail:pendingDetail}
-      ],
-      strengths:[
-        {title:'Trade that travels.',copy:'A business shaped around clear products, careful presentation and the next destination.'},
-        {title:'Value with purpose.',copy:'A measured starting point for future export partnerships.'}
-      ]
-    },
-    availability:{label:'Coming soon',title:'Export details are on their way.',copy:'Verified business details and destination pages for red chillies and turmeric are being prepared.'}
+    detail:'Connect with Arthasya Export for specifications, lab test certificates, and overseas bulk quotations.'
   },
   {
     id:'pravah', name:'arth.pravah', heroName:'ARTHASYA PRAVAH', label:'Electric mobility',

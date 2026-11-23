@@ -19,13 +19,30 @@ test('parent homepage is complete static HTML with its own branding and lightwei
 });
 
 test('parent business, about and contact routes render safe factual content',async()=>{
-  for(const [path,heading,needle] of [['/arth.export','Red chillies and turmeric with a sense of place.','Red chillies'],['/arth.urja','Charge the next move.','charging points'],['/arth.gati','Fleet built to move.','Affordable electric-bike'],['/about','More than business. A belief in better.','Value with purpose.'],['/contact','Start with a question.','export-enquiry']]){
+  for(const [path,heading,needle] of [['/arth.export','Trusted sourcing from India.','Red chillies'],['/arth.urja','Charge the next move.','charging points'],['/arth.gati','Fleet built to move.','Affordable electric-bike'],['/about','More than business. A belief in better.','Value with purpose.'],['/contact','Start with a question.','export-enquiry']]){
     const html=await documentFor(path);assert.match(html,new RegExp(`<h1[^>]*>${heading.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}</h1>`),path);assert.match(html,new RegExp(needle,'i'),path);assert.match(html,/href="\/#businesses"/);if(path==='/about'||path==='/contact')assert.match(html,/aria-current="page"/);
   }
-  for(const path of ['/arth.export','/arth.urja','/arth.gati']){const html=await documentFor(path);assert.match(html,/Coming soon/);assert.match(html,/class="arth-home-link" href="\//);}
+  for(const path of ['/arth.urja','/arth.gati']){const html=await documentFor(path);assert.match(html,/Coming soon/);assert.match(html,/class="arth-home-link" href="\//);}
   const about=await documentFor('/about');assert.match(about,/id="founders"/);assert.match(about,/Founder profiles, approved copy and images/);
   const contact=await documentFor('/contact');assert.equal((contact.match(/data-enquiry-form=/g)||[]).length,4);assert.doesNotMatch(contact,/<form[^>]+action=/i);assert.match(contact,/Nothing is sent or stored/);
   assert.ok(allPaths.includes('/arth.export')&&allPaths.includes('/arth.urja')&&allPaths.includes('/arth.gati')&&allPaths.includes('/about')&&allPaths.includes('/contact'));
+});
+
+test('export portal and product routes render comprehensive catalog and enquiry flow',async()=>{
+  const portalHtml=await documentFor('/arth.export');
+  assert.match(portalHtml,/data-slider/);
+  assert.match(portalHtml,/Trusted sourcing from India\./);
+  assert.match(portalHtml,/Our 8-step export process/i);
+  assert.match(portalHtml,/Turmeric Fingers/);
+  assert.match(portalHtml,/Dry Red Chillies/);
+  assert.match(portalHtml,/data-enquiry-form="export-rfq"/);
+
+  const productHtml=await documentFor('/export/turmeric-fingers');
+  assert.match(productHtml,/Salem, Nizamabad & Rajapore/);
+  assert.match(productHtml,/2\.0% – 5\.0%/);
+  assert.match(productHtml,/data-enquiry-form="product-rfq"/);
+  assert.ok(allPaths.includes('/export/turmeric-fingers'));
+  assert.ok(allPaths.includes('/export/dry-red-chillies'));
 });
 
 test('old EV homepage remains directly available with original features and separate canonical',async()=>{

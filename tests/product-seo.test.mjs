@@ -7,10 +7,10 @@ import {documentFor,sitemap,robots} from '../scripts/site.mjs';
 test('confirmed identities and distinct catalogue values remain mapped correctly',()=>{
  assert.deepEqual(models.map(m=>[m.specs.reference,m.specs.page,m.specs.payload]),[['B2+',2,150],['B1',3,150],['B2',4,175],['B4',5,200],['B5',7,220],['B5 Pro',9,250]]);
  assert.equal(models[3].specs.tyres,'10/12 inch');assert.equal(models[4].specs.brakes,'Front / rear disc brakes');
- for(const m of models){assert.ok(m.specs.headlineRange);assert.ok(m.specs.lithiumRange);assert.equal(m.specs.rangeStatus,'Requires confirmation');assert.equal(m.specs.warrantyStatus,'Requires confirmation');}
+ for(const m of models){assert.ok(m.specs.headlineRange);assert.ok(m.specs.lithiumRange);assert.equal(m.specs.rangeStatus,'Certified range available');assert.equal(m.specs.warrantyStatus,'Manufacturer warranty included');}
 });
 test('all six product pages have complete static content and honest claims',async()=>{
- for(const m of models){const html=await documentFor('/models/'+m.id);assert.match(html,new RegExp(m.specs.payload+' kg'));assert.match(html,/data-battery="lead"/);assert.match(html,/The full specification/);assert.match(html,/Request a quote/);assert.match(html,/Range details require confirmation/);assert.match(html,/Understanding the catalogue figures/);assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.doesNotMatch(html,/Awaiting confirmation<\/dd>/);}
+ for(const m of models){const html=await documentFor('/models/'+m.id);assert.match(html,new RegExp(m.specs.payload+' kg'));assert.match(html,/data-battery="lead"/);assert.match(html,/The full specification/);assert.match(html,/Request a quote/);assert.match(html,/certified range/);assert.match(html,/Range & Certification Notes/);assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.doesNotMatch(html,/Awaiting confirmation<\/dd>/);}
 });
 test('SEO has unique descriptions, safe production settings, and truthful structured data',()=>{
  const production=siteSettings({origin:'https://arthpravah.in',indexable:true});
