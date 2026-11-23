@@ -40,7 +40,11 @@ export async function documentFor(path){
 }
 
 export function sitemap(){
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${publicPaths.map(path=>`  <url><loc>${settings.origin}${path}</loc></url>`).join('\n')}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${publicPaths.map(path => {
+    const priority = path === '/' ? '1.0' : (path === '/arth.export' || path === '/arth.pravah') ? '0.9' : path.startsWith('/export/') ? '0.8' : '0.7';
+    const changefreq = path === '/' ? 'daily' : (path.startsWith('/export') || path.startsWith('/models')) ? 'weekly' : 'monthly';
+    return `  <url>\n    <loc>${settings.origin}${path}</loc>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+  }).join('\n')}\n</urlset>\n`;
 }
 
 export function robots(){

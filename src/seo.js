@@ -185,16 +185,66 @@ const parentSEO = {
 export function pageSEO(path, settings = siteSettings()) {
   if (path === '/') {
     return {
-      title: 'Arthasya | Exports, energy and mobility',
-      description: 'Explore Arthasya’s purpose-led businesses across red chilli and turmeric exports, electric mobility, charging infrastructure and fleet services.',
+      title: 'Arthasya — Official Website | Agro Exports, Electric Mobility & Energy',
+      description: 'Official website of Arthasya Group. Leading Indian enterprise operating across agricultural exports (turmeric & red chillies), electric mobility (ARTH.Pravah), charging infrastructure and fleet solutions.',
       canonical: settings.origin + '/',
       image: settings.origin + '/assets/arthasya/slide-pravah.png',
-      imageAlt: 'ARTH.Pravah electric scooter representing Arthasya mobility',
+      imageAlt: 'Arthasya Group — Agro Exports and Electric Mobility',
       siteName: 'Arthasya',
       robots: settings.indexable ? 'index,follow' : 'noindex,nofollow',
       schema: [
-        {'@context': 'https://schema.org', '@type': 'Organization', name: 'Arthasya', url: settings.origin + '/', logo: settings.origin + '/assets/arthasya/logo-transparent.png'},
-        {'@context': 'https://schema.org', '@type': 'WebSite', name: 'Arthasya', url: settings.origin + '/'}
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          '@id': settings.origin + '/#organization',
+          name: 'Arthasya',
+          legalName: 'Arthasya Group',
+          alternateName: ['Arthasya', 'ARTHASYA', 'Arthasya Group', 'Arthasya Ventures'],
+          url: settings.origin + '/',
+          logo: settings.origin + '/assets/arthasya/logo-transparent.png',
+          telephone: '+91 83475 96153',
+          email: 'info@arthasya.biz',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Plot No. 9/A, Ramchandra Reddy Nagar, Ramachandrapuram (BHEL Township), Beeramguda',
+            addressLocality: 'Hyderabad',
+            addressRegion: 'Telangana',
+            postalCode: '502032',
+            addressCountry: 'IN'
+          },
+          contactPoint: [
+            {
+              '@type': 'ContactPoint',
+              telephone: '+91 8309103531',
+              contactType: 'sales',
+              contactOption: 'TollFree',
+              areaServed: 'Worldwide',
+              availableLanguage: ['English', 'Hindi', 'Telugu']
+            },
+            {
+              '@type': 'ContactPoint',
+              telephone: '+91 83475 96153',
+              contactType: 'customer service',
+              areaServed: 'IN',
+              availableLanguage: ['English', 'Hindi', 'Telugu']
+            }
+          ],
+          department: [
+            {'@type': 'Organization', name: 'Arthasya Export', url: settings.origin + '/arth.export'},
+            {'@type': 'Organization', name: 'ARTH.Pravah', url: settings.origin + '/arth.pravah'},
+            {'@type': 'Organization', name: 'ARTH.Urja', url: settings.origin + '/arth.urja'},
+            {'@type': 'Organization', name: 'ARTH.Gati', url: settings.origin + '/arth.gati'}
+          ]
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          '@id': settings.origin + '/#website',
+          name: 'Arthasya',
+          alternateName: 'Arthasya Group',
+          url: settings.origin + '/',
+          publisher: {'@id': settings.origin + '/#organization'}
+        }
       ]
     };
   }
@@ -204,7 +254,15 @@ export function pageSEO(path, settings = siteSettings()) {
     const isExportProduct = path.startsWith('/export/');
     const schema = [
       {'@context': 'https://schema.org', '@type': 'Organization', name: 'Arthasya', url: settings.origin + '/', logo: settings.origin + '/assets/arthasya/logo-transparent.png'},
-      {'@context': 'https://schema.org', '@type': 'WebPage', name: meta.title, description: meta.description, url: settings.origin + path, isPartOf: {'@type': 'WebSite', name: 'Arthasya', url: settings.origin + '/'}}
+      {'@context': 'https://schema.org', '@type': 'WebPage', name: meta.title, description: meta.description, url: settings.origin + path, isPartOf: {'@type': 'WebSite', name: 'Arthasya', url: settings.origin + '/'}},
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {'@type': 'ListItem', position: 1, name: 'Home', item: settings.origin + '/'},
+          {'@type': 'ListItem', position: 2, name: meta.title.split('|')[0].trim(), item: settings.origin + path}
+        ]
+      }
     ];
     if (isExportProduct) {
       schema.push({
